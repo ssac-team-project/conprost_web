@@ -7,6 +7,12 @@ module.exports = {
     NO_USER: '존재하지 않는 회원입니다.',
     MISS_MATCH_PW: '비밀번호가 맞지 않습니다.',
 
+    CONTEST_DETAIL_FAIL: '공모전 세부 정보 조회 실패',
+    CONTEST_DETAIL_SUCCESS: '공모전 세부 정보 조회 성공',
+
+    TEAM_RECRUITMENT_FAIL: '공모전 세부 정보 조회 실패',
+    TEAM_RECRUITMENT_SUCCESS: '공모전 세부 정보 조회 성공',
+
     // 인증
     EMPTY_TOKEN: '토큰 값이 없습니다.',
     EXPIRED_TOKEN: '토큰 값이 만료되었습니다.',
