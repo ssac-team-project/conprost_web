@@ -25,6 +25,4 @@ teamSchema.static.applyTeam = function ({ title, skills }) {
     return apply.save()
 }
 
-
-
 module.exports = mongoose.model('team', teamSchema);
