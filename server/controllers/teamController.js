@@ -31,7 +31,7 @@ const team = {
             return res.status(statusCode.BAD_REQUEST.send(util.fail(statusCode.BAD_REQUEST, resMessage.CREATE_TEAM_FAIL)))
         }
     }
-
+    
 }
 
 module.exports = team;
