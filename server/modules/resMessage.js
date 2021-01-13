@@ -13,6 +13,10 @@ module.exports = {
     TEAM_RECRUITMENT_FAIL: '공모전 세부 정보 조회 실패',
     TEAM_RECRUITMENT_SUCCESS: '공모전 세부 정보 조회 성공',
 
+    // 팀 생성
+    CREATE_TEAM_FAIL: '팀 생성 실패',
+    CREATE_TEAM_SECCESS: '팀 생성 성공',
+
     // 인증
     EMPTY_TOKEN: '토큰 값이 없습니다.',
     EXPIRED_TOKEN: '토큰 값이 만료되었습니다.',
