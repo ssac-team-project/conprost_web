@@ -9,9 +9,8 @@ const usersSchema = new mongoose.Schema({
     self: {type: String }, // 자기소개
     img_url: {type: String}, // default 로 기본 사진 하나 추가해주기
     trust: {type: Number}, // 기여도
-    token: {type: Number, required: true}, // 토큰
+    token: {type: Number}, // 토큰
     tokenExp: {type: Number}, //토큰 만료값
-    //teams: [new mongoose.Schema({teamId: String, teamName: String})] // 속한 팀
 });
 
 module.exports = mongoose.model('users', usersSchema);

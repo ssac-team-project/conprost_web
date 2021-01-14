@@ -1,24 +1,15 @@
 const mongoose = require('mongoose');
 
-const teamSchema = new mongoose.Schema({
-    title: { type: String, required: true, unique: true }, //팀 이름
-    skills:{ type: String, required: true }, // 분야
-    people:{ type: Number, required: true }, // 총 인원 수
-    description: {type: String, required: true}, // 모집글
-    admin: {type: String, default: true}, // 생성자
-    current:{type: Number, default: 0} // 현재 인원 
+const teamsSchema = new mongoose.Schema({
+    users: {type: mongoose.SchemaTypes.ObjectId, ref:"users"}, //user가 해당 team을 가지고 있게됨
+    name: {type: String, required: true, unique: true}, // 팀명
+    title: {type: String, required: true}, // 팀원 모집글 title 
+    part: {type: String, required: true}, // 필요한 파트
+    total: {type: Number, required: true}, // 필요한 총 인원
+    mates: {type: Number, required: true}, // 현재 인원 수 
+    userlist: [new mongoose.Schema({userId: String},{_id:false})] //팀원 목록
 });
 
-teamSchema.statics.createTeam = function ({ title, skills, peoples,description }) {
-    const team = new this({
-        title, //팀 이름 
-        skills, // 구하는 분야
-        peoples, // 총 인원 수 
-        description // 홍보 글
-    });
-
-    return team.save();
-};
 
 // 보류 상의후 다시 = 팀 스키마에 있지말고 유저 스키마로 가는게 맞는거같음
 teamSchema.static.applyTeam = function ({ title, skills }) {
@@ -29,4 +20,4 @@ teamSchema.static.applyTeam = function ({ title, skills }) {
     return apply.save()
 }
 
-module.exports = mongoose.model('team', teamSchema);
+module.exports = mongoose.model('teams', teamsSchema);
