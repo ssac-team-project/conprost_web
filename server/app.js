@@ -7,9 +7,6 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-
 var app = express();
 
 // view engine setup
@@ -39,21 +36,6 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
-});
-
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-
-const dburl = require('./config/mongod.json');
-
-mongoose.connect(dburl.url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false
-});
-
-mongoose.connection.on('connected', ()=>{
-  console.log('Mongoose is connected!');
 });
 
 module.exports = app;
