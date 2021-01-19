@@ -6,6 +6,6 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.use('/contest', require('./contest'));
+router.use('/projects', require('./projects'));
 
 module.exports = router;
