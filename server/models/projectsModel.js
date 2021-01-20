@@ -43,7 +43,7 @@ const projects = {
     },
 
     showDetailProject: async (projectIdx) => { // 세부정보 조회
-        const query = `select * from ${PROJECT} where project = ${projectIdx}`; 
+        const query = `SELECT * FROM ${PROJECT} WHERE project = ${projectIdx}`; 
         try {
             const result = await pool.queryParam(query);
             return result;

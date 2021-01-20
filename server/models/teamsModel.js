@@ -5,7 +5,7 @@ const teams = {
     createTeams: async(teaminfo) => {
         const info = "project,part,team_name,title,description,total";
         const insert = '?,?,?,?,?,?';
-        const query = `insert into ${TEAM}(${info}) values (${insert})`;
+        const query = `INSERT INTO ${TEAM}(${info}) VALUES (${insert})`;
     try {
         const result = await pool.queryParamArr(query,teaminfo);
         return result;
