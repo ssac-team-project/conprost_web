@@ -3,6 +3,8 @@ var router = express.Router();
 
 const ProjectsController = require('../controllers/projectsController');
 
-router.get('/', ProjectsController.showProjects);
+router.get('/:categoryIdx', ProjectsController.showProjects);
+router.get('/search/:keyword', ProjectsController.searchByKeyword);
+router.put('/period/:projectIdx', ProjectsController.updateProjectPeriod);
 
 module.exports = router;
