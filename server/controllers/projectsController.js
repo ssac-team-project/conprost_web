@@ -9,10 +9,11 @@ const projects = {
     showProjects : async (req, res) => {
         try {
             const result = await ProjectsModel.showProjects();
+            console.log(result);
             if (!result) {
                 return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.SHOW_PROJECTS_FAIL));
             } else {
-                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.SHOW_PROJECTS_SUCCESS, result));
+                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.SHOW_PROJECTS_SUCCESS, result));
             }
         } catch (err) {
             console.log(err);
