@@ -38,6 +38,21 @@ const projects = {
             console.log(err);
             return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
         }
+    },
+    updateProjectPeriod: async (req, res) => {
+        const projectIdx = req.params.projectIdx;
+        const {period} = req.body;
+        try {
+            const result = await ProjectsModel.updateProjectPeriod(projectIdx, period);
+            if (!result) {
+                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.UPDATE_PERIOD_FAIL));
+            } else {
+                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.UPDATE_PERIOD_SUCCESS, result));
+            }
+        } catch (err) {
+            console.log(err);
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+        }
     }
 }
 

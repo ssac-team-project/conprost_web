@@ -14,6 +14,9 @@ module.exports = {
     SEARCH_FAIL: '검색 실패',
     SEARCH_SUCCESS: '검색 성공',
 
+    UPDATE_PERIOD_FAIL: '프로젝트 기간 업데이트 실패',
+    UPDATE_PERIOD_SUCCESS: '프로젝트 기간 업데이트 성공',
+
     CONTEST_DETAIL_FAIL: '공모전 세부 정보 조회 실패',
     CONTEST_DETAIL_SUCCESS: '공모전 세부 정보 조회 성공',
 
