@@ -53,6 +53,22 @@ const projects = {
             console.log(err);
             return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
         }
+    },
+    showDetailProject : async (req, res) => {
+        const projectIdx = req.params.projectIdx;
+        try {
+            const result = await ProjectsModel.showDetailProject(projectIdx);
+            if (!result) {
+                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.CONTEST_DETAIL_FAIL));
+            } else if (result.length === 0) {
+                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NO_CONTENT));
+            } else {
+                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.CONTEST_DETAIL_SUCCESS, result));
+            }
+        } catch (err) {
+            console.log(err);
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+        }
     }
 }
 

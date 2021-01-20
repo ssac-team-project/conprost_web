@@ -17,11 +17,11 @@ module.exports = {
     UPDATE_PERIOD_FAIL: '프로젝트 기간 업데이트 실패',
     UPDATE_PERIOD_SUCCESS: '프로젝트 기간 업데이트 성공',
 
-    CONTEST_DETAIL_FAIL: '공모전 세부 정보 조회 실패',
-    CONTEST_DETAIL_SUCCESS: '공모전 세부 정보 조회 성공',
+    CONTEST_DETAIL_FAIL: '프로젝트 세부 정보 조회 실패',
+    CONTEST_DETAIL_SUCCESS: '프로젝트 세부 정보 조회 성공',
 
-    TEAM_RECRUITMENT_FAIL: '공모전 세부 정보 조회 실패',
-    TEAM_RECRUITMENT_SUCCESS: '공모전 세부 정보 조회 성공',
+    TEAM_RECRUITMENT_FAIL: '팀 만들기 실패',
+    TEAM_RECRUITMENT_SUCCESS: '팀 만들기 성공',
 
     // 인증
     EMPTY_TOKEN: '토큰 값이 없습니다.',
