@@ -1,6 +1,7 @@
 module.exports = {
     NULL_VALUE: '필요한 값이 없습니다',
     OUT_OF_VALUE: '파라미터 값이 잘못되었습니다',
+    NO_CONTENT: '내역 없음',
     // 로그인
     LOGIN_SUCCESS: '로그인 성공',
     LOGIN_FAIL: '로그인 실패',
@@ -9,6 +10,9 @@ module.exports = {
 
     SHOW_PROJECTS_FAIL: '프로젝트 조회 실패',
     SHOW_PROJECTS_SUCCESS: '프로젝트 조회 성공',
+
+    SEARCH_FAIL: '검색 실패',
+    SEARCH_SUCCESS: '검색 성공',
 
     CONTEST_DETAIL_FAIL: '공모전 세부 정보 조회 실패',
     CONTEST_DETAIL_SUCCESS: '공모전 세부 정보 조회 성공',
