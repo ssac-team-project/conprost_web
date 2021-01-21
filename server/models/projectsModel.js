@@ -34,7 +34,7 @@ const projects = {
         const selectQuery = `SELECT * FROM ${PROJECT}`;
         try {
             await pool.queryParam(query);
-            const result = pool.queryParam(selectQuery);
+            const result = await pool.queryParam(selectQuery);
             return result;
         } catch (err) {
             console.log('updateProjectPeriod ERROR: ', err);
