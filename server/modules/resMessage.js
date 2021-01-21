@@ -23,6 +23,12 @@ module.exports = {
     TEAM_RECRUITMENT_FAIL: '팀 만들기 실패',
     TEAM_RECRUITMENT_SUCCESS: '팀 만들기 성공',
 
+    ALREADY_TEAM_NAME: '중복된 팀 이름 입니다.',
+
+    //팀 구인 조회
+    NO_PROJECT: '해당되는 프로젝트가 없습니다.',
+    NO_TEAM: '해당되는 팀이 없습니다.',
+
     // 인증
     EMPTY_TOKEN: '토큰 값이 없습니다.',
     EXPIRED_TOKEN: '토큰 값이 만료되었습니다.',

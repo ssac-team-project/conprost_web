@@ -6,27 +6,56 @@ const util = require('../modules/util');
 const teams = {
     createTeams: async (req,res) => {
 
-        let teaminfo = 
-         [ req.body.projectIdx,
-           req.body.partIdx,
-           req.body.team_name,
-           req.body.title,
-           req.body.description,
-           req.body.total
-         ]
-        try {
-            const result = await TeamsModel.createTeams(teaminfo);
-            console.log(result);
-            if (!result) {
-                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.TEAM_RECRUITMENT_FAIL));
-            } 
-            else {
-                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.TEAM_RECRUITMENT_SUCCESS, result));
+        const 
+         { 
+           projectIdx,
+           partIdx,
+           team_name,
+           title,
+           description,
+           total
+          } = req.body;
+        try {  
+            // 팀 정보값 누락
+            if (!projectIdx || !partIdx || !team_name || !title || !description || !total) {
+                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NULL_VALUE));
             }
+            // 중복 팀명 확인
+            const teamname = await TeamsModel.checkTeam(team_name);
+            if(teamname.length > 0 ){
+                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.ALREADY_TEAM_NAME));
+            }
+                const result = await TeamsModel.createTeams(projectIdx,partIdx,team_name,title,description,total);
+                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.TEAM_RECRUITMENT_SUCCESS, result));
         } catch (err) {
             console.log(err);
             return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+            }
+    },
+    /*applyTeam: async(req,res) =>{
+        const {
+            user,
+            team
+        } = req.body
+        try {
+            
         }
-    }}
+    }*/
+    showProjectTeams: async(req,res) => {
+        const projectIdx = req.params.projectIdx;
+        try{
+            const result = await TeamsModel.showProjectTeams(projectIdx);
+            if(!result){
+                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NO_PROJECT));
+            }else {
+                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.SHOW_PROJECTS_SUCCESS, result));
+            }
+        }catch(err){
+            console.log(err);
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+        }
+    }
+    
+}
 
 module.exports = teams;
