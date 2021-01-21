@@ -32,23 +32,34 @@ const teams = {
             return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
             }
     },
-    /*applyTeam: async(req,res) =>{
+
+    applyTeam: async(req,res) =>{
         const {
-            user,
-            team
+            userIdx,
+            teamIdx,
+            partIdx
         } = req.body
         try {
-            
+            //같은 팀에 신청하는지 확인
+           const apply = await TeamsModel.checkApply(userIdx);
+           if(apply === userIdx){
+               return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.ALREADY_TEAM));
+           } const result = await TeamsModel.applyTeam(userIdx,teamIdx,partIdx)
+             return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.APPLY_TEAM_SUCCESS, result));
+        }catch(err){
+            console.log(err);
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
         }
-    }*/
+    },
+
     showProjectTeams: async(req,res) => {
         const projectIdx = req.params.projectIdx;
         try{
             const result = await TeamsModel.showProjectTeams(projectIdx);
             if(!result){
-                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NO_PROJECT));
+                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.SHOW_TEAMS_FAIL));
             }else {
-                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.SHOW_PROJECTS_SUCCESS, result));
+                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.SHOW_TEAMS_SUCCESS, result));
             }
         }catch(err){
             console.log(err);

@@ -1,15 +1,19 @@
 const pool = require('../modules/pool');
 const TEAM = 'Team'; // Team Table
 const TEAMUSER = 'TeamUser';
+const PART = 'Part';
+const USER = 'User';
 
 const teams = {
     createTeams: async(projectIdx,partIdx,team_name,title,description,total) => {
-        const info = "project,part,team_name,title,description,total";
-        const insert = '?,?,?,?,?,?';
-        const values = [projectIdx,partIdx,team_name,title,description,total]
-        const query = `INSERT INTO ${TEAM}(${info}) VALUES (${insert})`;
+        const fields = "project,part,team_name,title,description,total";
+        const questions = '?,?,?,?,?,?';
+        //팀 만들 시 Part테이블에 개발분야와 인원 수를 전달해야함
+        const values = [projectIdx,partIdx,team_name,title,description,total];
+        const query = `INSERT INTO ${TEAM}(${fields}) VALUES (${questions})`;
     try {
         const result = await pool.queryParamArr(query,values);
+        //
         const insertId = result.insertId;
         return insertId; //여기서 얻은 Id값을 TeamUser 테이블에 저장하고 싶은데 어떻게 해야 할까요...?
     } 
@@ -19,10 +23,14 @@ const teams = {
         }
     },
 
-    applyTeam: async(user) => {
-        const query = `INSERT INTO TeamUser VALUES(${user})`;
+    applyTeam: async(userIdx,teamIdx) => {
+        const fields = "user,team";
+        const questions = '?,?';
+        // 팀 신청시 Team테이블의 현재인원수를 수정해야하고 Part테이블의 인원수를 수정해야한다.
+        const values = [userIdx,teamIdx];
+        const query = `INSERT INTO ${TEAMUSER}(${fields}) VALUES(${questions})`;
         try{
-            const result = await pool.queryParam(query);
+            const result = await pool.queryParamArr(query,values);
             return result;
         }
         catch(err){
@@ -48,6 +56,19 @@ const teams = {
         const query = `SELECT team_name
                        FROM ${TEAM}
                        WHERE team_name = "${team_name}"`;
+        try {
+            const result = await pool.queryParam(query);
+            return result;
+        } catch(err){
+            console.log('checkTeam ERROR: ', err);
+        }
+    },
+    
+    checkApply: async(userIdx) => {
+        const query = `SELECT u.user
+                       FROM ${TEAM} t INNER JOIN ${TEAMUSER} tu on t.team = tu.team_user
+                       INNER JOIN ${USER} u on tu.user = u.user
+                       WHERE t.team = ${userIdx}`;
         try {
             const result = await pool.queryParam(query);
             return result;

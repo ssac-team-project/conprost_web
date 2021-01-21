@@ -11,6 +11,12 @@ module.exports = {
     SHOW_PROJECTS_FAIL: '프로젝트 조회 실패',
     SHOW_PROJECTS_SUCCESS: '프로젝트 조회 성공',
 
+    SHOW_TEAMS_FAIL: '팀 조회 실패',
+    SHOW_TEAMS_SUCCESS: '팀 조회 성공',
+
+    APPLY_TEAM_SECCESS: '팀 신청이 완료되었습니다.',
+    ALREADY_TEAM: '이미 속한 팀 입니다.',
+
     SEARCH_FAIL: '검색 실패',
     SEARCH_SUCCESS: '검색 성공',
 
