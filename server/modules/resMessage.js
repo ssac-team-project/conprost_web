@@ -14,6 +14,7 @@ module.exports = {
     SHOW_TEAMS_FAIL: '팀 조회 실패',
     SHOW_TEAMS_SUCCESS: '팀 조회 성공',
     DELETE_TEAMS_SUCCESS: '팀 삭제 성공',
+    SHOW_TEAM_LIST_SUCCESS: '팀 리스트 조회 성공',
 
     APPLY_TEAM_SECCESS: '팀 신청이 완료되었습니다.',
     ALREADY_TEAM: '이미 속한 팀 입니다.',

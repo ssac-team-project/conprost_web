@@ -1,4 +1,5 @@
 const TeamsModel = require('../models/teamsModel');
+const pool = require('../modules/pool');
 const resMessage = require('../modules/resMessage');
 const statusCode = require('../modules/statusCode');
 const util = require('../modules/util');
@@ -49,6 +50,22 @@ const teams = {
         }
     },
 
+    showTeamlist: async(req,res) => {
+        userIdx = req.params.userIdx;
+        try{
+            const result = await TeamsModel.showTeamlist(userIdx);
+            if(!result){
+                return res.status(statusCode.OK).send(util.fail(statusCode.NOT_FOUND,resMessage.SHOW_TEAMS_FAIL));
+            }
+            else{
+                return res.status(statusCode.OK).send(util.success(statusCode.OK,resMessage.SHOW_TEAM_LIST_SUCCESS,result));
+            }
+        }catch(err){
+            console.log(err);
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+        }
+    },
+
     applyTeam: async(req,res) =>{
         const {
             userIdx,
@@ -59,8 +76,10 @@ const teams = {
            const apply = await TeamsModel.checkApply(userIdx);
            if(apply === userIdx){
                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.ALREADY_TEAM));
-           } const result = await TeamsModel.applyTeam(userIdx,teamIdx)
+           } 
+             const result = await TeamsModel.applyTeam(userIdx,teamIdx)
              return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.APPLY_TEAM_SUCCESS, result));
+             
         }catch(err){
             console.log(err);
             return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));

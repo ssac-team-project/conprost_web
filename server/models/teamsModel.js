@@ -39,6 +39,20 @@ const teams = {
         }
     },
 
+    showTeamlist: async(userIdx)=>{ //User가 속한 팀의 이름과 타이틀을 보여준다
+        const query = `SELECT t.team_name, t.title
+                       FROM ${TEAM} t INNER JOIN ${TEAMUSER} tu on t.team = tu.team_user
+                       INNER JOIN ${USER} u on tu.user = u.user
+                       WHERE u.user = ${userIdx}`;
+        try{
+            result = await pool.queryParam(query);
+            return result;
+        }catch(err){
+            console.log('showTeamlist ERROR ', err);
+            throw err;
+        }
+    },
+
     showProjectTeams: async(projectIdx)=>{
         const query = `SELECT team_name, title, description,total,participants
                        FROM ${TEAM} 
@@ -74,7 +88,7 @@ const teams = {
         }
     },
     
-    checkApply: async(userIdx) => { // User의 중복팀 체크
+    checkApply: async(userIdx) => { // User가 팀 신청을 했던 팀에 중복 신청하는지 체크한다
         const query = `SELECT u.user
                        FROM ${TEAM} t INNER JOIN ${TEAMUSER} tu on t.team = tu.team_user
                        INNER JOIN ${USER} u on tu.user = u.user
