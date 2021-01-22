@@ -53,14 +53,13 @@ const teams = {
         const {
             userIdx,
             teamIdx,
-            partIdx
         } = req.body
         try {
             //같은 팀에 신청하는지 확인
            const apply = await TeamsModel.checkApply(userIdx);
            if(apply === userIdx){
                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.ALREADY_TEAM));
-           } const result = await TeamsModel.applyTeam(userIdx,teamIdx,partIdx)
+           } const result = await TeamsModel.applyTeam(userIdx,teamIdx)
              return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.APPLY_TEAM_SUCCESS, result));
         }catch(err){
             console.log(err);

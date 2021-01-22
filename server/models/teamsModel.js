@@ -27,7 +27,7 @@ const teams = {
         const fields = "user,team,part";
         const questions = '?,?';
         // 팀 신청시 Team테이블의 현재인원수를 수정해야한다.
-        const values = [userIdx,teamIdx,partIdx];
+        const values = [userIdx,teamIdx];
         const query = `INSERT INTO ${TEAMUSER}(${fields}) VALUES(${questions})`;
         try{
             const result = await pool.queryParamArr(query,values);
