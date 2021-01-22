@@ -41,7 +41,7 @@ const teams = {
 
     showTeamlist: async(userIdx)=>{ //User가 속한 팀의 이름과 타이틀을 보여준다
         const query = `SELECT t.team_name, t.title
-                       FROM ${TEAM} t INNER JOIN ${TEAMUSER} tu on t.team = tu.team_user
+                       FROM ${TEAM} t INNER JOIN ${TEAMUSER} tu on t.team = tu.team
                        INNER JOIN ${USER} u on tu.user = u.user
                        WHERE u.user = ${userIdx}`;
         try{
@@ -52,8 +52,22 @@ const teams = {
             throw err;
         }
     },
+    
+    showDetailTeamBords: async(teamIdx)=>{ //팀원 목록과 프로젝트 소개를 보여준다.
+        const query = `SELECT t.description, u.user_name
+                       FROM ${TEAM} t INNER JOIN ${TEAMUSER} tu on t.team = tu.team
+                       INNER JOIN ${USER} u on tu.user = u.user
+                       WHERE t.team = ${teamIdx}`;
+        try{
+            const result = await pool.queryParam(query);
+            return result;
+        }catch(err){
+            console.log('showTeamBords ERROR: err');
+            throw err;
+        }
+    },
 
-    showProjectTeams: async(projectIdx)=>{
+    showProjectTeams: async(projectIdx)=>{ // 팀 구인글 조회
         const query = `SELECT team_name, title, description,total,participants
                        FROM ${TEAM} 
                        WHERE project = ${projectIdx};`; 

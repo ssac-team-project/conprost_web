@@ -66,6 +66,22 @@ const teams = {
         }
     },
 
+    showDetailTeamBords:async(req,res) =>{
+        teamIdx = req.params.teamIdx;
+        try{
+            const result = await TeamsModel.showDetailTeamBords(teamIdx);
+            if(!result){
+                return res.status(statusCode.OK).send(util.fail(statusCode.NOT_FOUND,resMessage.SHOW_TEAMS_FAIL));
+            }
+            else{
+                return res.status(statusCode.OK).send(util.success(statusCode.OK,resMessage.SHOW_TEAM_LIST_SUCCESS,result));
+            }
+        }catch(err){
+            console.log(err);
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+        }
+    },
+
     applyTeam: async(req,res) =>{
         const {
             userIdx,
@@ -79,7 +95,7 @@ const teams = {
            } 
              const result = await TeamsModel.applyTeam(userIdx,teamIdx)
              return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.APPLY_TEAM_SUCCESS, result));
-             
+
         }catch(err){
             console.log(err);
             return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
