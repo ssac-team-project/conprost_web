@@ -5,7 +5,6 @@ const util = require('../modules/util');
 
 const teams = {
     createTeams: async (req,res) => {
-
         const 
          { 
            projectIdx,
@@ -17,7 +16,7 @@ const teams = {
           } = req.body;
         try {  
             // 팀 정보값 누락
-            if (!projectIdx || !partIdx || !team_name || !title || !description || !total) {
+            if (projectIdx===null|| !partIdx || !team_name || !title || !description || !total) {
                 return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NULL_VALUE));
             }
             // 중복 팀명 확인
@@ -27,10 +26,27 @@ const teams = {
             }
                 const result = await TeamsModel.createTeams(projectIdx,partIdx,team_name,title,description,total);
                 return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.TEAM_RECRUITMENT_SUCCESS, result));
+            
         } catch (err) {
             console.log(err);
             return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
             }
+    },
+
+    deleteTeam: async(req,res)=>{ //팀삭제
+        teamIdx = req.params.teamIdx;
+        try{
+            const result = await TeamsModel.deleteTeam(teamIdx);
+            if(!result){
+                return res.status(statusCode.OK).send(util.fail(statusCode.NOT_FOUND,resMessage.SHOW_TEAMS_FAIL));
+            }
+            else{
+                return res.status(statusCode.OK).send(util.success(statusCode.OK,resMessage.DELETE_TEAMS_SUCCESS));
+            }
+        }catch(err){
+            console.log(err);
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+        }
     },
 
     applyTeam: async(req,res) =>{

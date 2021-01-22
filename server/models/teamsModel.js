@@ -11,9 +11,9 @@ const teams = {
         //팀 만들 시 Part테이블에 개발분야와 인원 수를 전달해야함
         const values = [projectIdx,partIdx,team_name,title,description,total];
         const query = `INSERT INTO ${TEAM}(${fields}) VALUES (${questions})`;
+        
     try {
         const result = await pool.queryParamArr(query,values);
-        //
         const insertId = result.insertId;
         return insertId; //여기서 얻은 Id값을 TeamUser 테이블에 저장하고 싶은데 어떻게 해야 할까요...?
     } 
@@ -24,10 +24,10 @@ const teams = {
     },
 
     applyTeam: async(userIdx,teamIdx) => {
-        const fields = "user,team";
+        const fields = "user,team,part";
         const questions = '?,?';
-        // 팀 신청시 Team테이블의 현재인원수를 수정해야하고 Part테이블의 인원수를 수정해야한다.
-        const values = [userIdx,teamIdx];
+        // 팀 신청시 Team테이블의 현재인원수를 수정해야한다.
+        const values = [userIdx,teamIdx,partIdx];
         const query = `INSERT INTO ${TEAMUSER}(${fields}) VALUES(${questions})`;
         try{
             const result = await pool.queryParamArr(query,values);
@@ -51,8 +51,18 @@ const teams = {
             throw err;
         }
     },
+    deleteTeam: async(teamIdx) =>{
+        const query = `DELETE FROM ${TEAM} WHERE ${teamIdx}`;
+        try{
+            const result = await pool.queryParam(query);
+            return result;
+        }catch(err){
+            console.log('deleteTeam ERROR: ',err);
+            throw err;
+        }
+    },
 
-    checkTeam: async(team_name) => {
+    checkTeam: async(team_name) => { // 중복 팀명 체크
         const query = `SELECT team_name
                        FROM ${TEAM}
                        WHERE team_name = "${team_name}"`;
@@ -64,7 +74,7 @@ const teams = {
         }
     },
     
-    checkApply: async(userIdx) => {
+    checkApply: async(userIdx) => { // User의 중복팀 체크
         const query = `SELECT u.user
                        FROM ${TEAM} t INNER JOIN ${TEAMUSER} tu on t.team = tu.team_user
                        INNER JOIN ${USER} u on tu.user = u.user
