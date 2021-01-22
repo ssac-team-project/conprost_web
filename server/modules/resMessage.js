@@ -8,6 +8,8 @@ module.exports = {
     NO_USER: '존재하지 않는 회원입니다.',
     MISS_MATCH_PW: '비밀번호가 맞지 않습니다.',
 
+    EVALUATE_SUCCESS: '유저평가 성공',
+    
     SHOW_PROJECTS_FAIL: '프로젝트 조회 실패',
     SHOW_PROJECTS_SUCCESS: '프로젝트 조회 성공',
 

@@ -24,17 +24,30 @@ const teams = {
     },
 
     applyTeam: async(userIdx,teamIdx) => {
-        const fields = "user,team,part";
+        const fields = "user,team";
         const questions = '?,?';
-        // 팀 신청시 Team테이블의 현재인원수를 수정해야한다.
         const values = [userIdx,teamIdx];
         const query = `INSERT INTO ${TEAMUSER}(${fields}) VALUES(${questions})`;
+        const addquery = `UPDATE ${TEAM} t SET participants = participants + 1 WHERE t.team = ${teamIdx}`;
         try{
+            await pool.queryParam(addquery);
             const result = await pool.queryParamArr(query,values);
             return result;
         }
         catch(err){
             console.log('applyTeam ERROR: ', err);
+            throw err;
+        }
+    },
+
+    evaluateUser: async(score,userIdx)=>{
+        //정수형대로 바꿔야함.
+        const query = `UPDATE ${USER} u SET contribution = IFNULL(contribution,0) + '${score}' WHERE u.user = ${userIdx} `;
+        try{
+            const result = await pool.queryParam(query);
+            return result;
+        }catch(err){
+            console.log('evaluateUser ERROR: ', err);
             throw err;
         }
     },
@@ -79,6 +92,7 @@ const teams = {
             throw err;
         }
     },
+
     deleteTeam: async(teamIdx) =>{
         const query = `DELETE FROM ${TEAM} WHERE ${teamIdx}`;
         try{

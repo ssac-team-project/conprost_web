@@ -34,8 +34,28 @@ const teams = {
             }
     },
 
+    evaluateUser: async(req,res)=>{ //User모델로 옮길것
+
+        const {score} = req.body;
+        const userIdx = req.params.userIdx;
+        try{
+            const result = await TeamsModel.evaluateUser(score,userIdx);
+            if(!result){
+                return res.status(statusCode.OK).send(util.fail(statusCode.NOT_FOUND,resMessage.NO_USER));
+            }
+            else{
+                return res.status(statusCode.OK).send(util.success(statusCode.OK,resMessage.EVALUATE_SUCCESS,result));
+            }
+        }catch(err){
+            console.log(err);
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+        }
+    },
+
+
+
     deleteTeam: async(req,res)=>{ //팀삭제
-        teamIdx = req.params.teamIdx;
+        const teamIdx = req.params.teamIdx;
         try{
             const result = await TeamsModel.deleteTeam(teamIdx);
             if(!result){
@@ -51,7 +71,7 @@ const teams = {
     },
 
     showTeamlist: async(req,res) => {
-        userIdx = req.params.userIdx;
+        const userIdx = req.params.userIdx;
         try{
             const result = await TeamsModel.showTeamlist(userIdx);
             if(!result){
@@ -67,7 +87,7 @@ const teams = {
     },
 
     showDetailTeamBords:async(req,res) =>{
-        teamIdx = req.params.teamIdx;
+        const teamIdx = req.params.teamIdx;
         try{
             const result = await TeamsModel.showDetailTeamBords(teamIdx);
             if(!result){
@@ -85,7 +105,7 @@ const teams = {
     applyTeam: async(req,res) =>{
         const {
             userIdx,
-            teamIdx,
+            teamIdx
         } = req.body
         try {
             //같은 팀에 신청하는지 확인
