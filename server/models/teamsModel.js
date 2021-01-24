@@ -3,6 +3,7 @@ const TEAM = 'Team'; // Team Table
 const TEAMUSER = 'TeamUser'; // TeamUser Table
 const PART = 'Part'; // Part Table
 const USER = 'User'; // User Table
+const PROJECT = 'Project'; //Project Table
 
 const teams = {
     //프로젝트 정보 뷰) 팀 만들기
@@ -84,7 +85,7 @@ const teams = {
         }
     },
 
-    //프로젝트 정보 뷰) 팀 구인글 조회
+    /*//프로젝트 정보 뷰) 팀 구인글 조회
     showProjectTeams: async(projectIdx)=>{ // 팀 구인글 조회
         const query = `SELECT team_name, title, description,total,participants
                        FROM ${TEAM} 
@@ -94,6 +95,34 @@ const teams = {
             return result;
         }catch(err){
             console.log('showProjectTeams ERROR: ', err);
+            throw err;
+        }
+    },*/
+
+    // 프로젝트 정보 뷰) 팀 구인글 조회
+    showGetProject: async (categoryIdx) => { // 프로젝트/스타트업 팀 구인글 조회
+        // 프로젝트/스타트업 이름, 본문 & 팀 총 인원, 팀 현재 인원,팀 이름 
+        const query = `SELECT t.total, t.participants, t.team_name
+                       FROM ${PROJECT} p , ${TEAM} t
+                       WHERE p.categoryIdx = ${categoryIdx}`;
+        try {
+            const result = await pool.queryParam(query);
+            return result;
+        } catch (err) {
+            console.log('showGetContent ERROR: ', err);
+            throw err;
+        }
+    },
+
+    showGetContest: async (categoryIdx,projectIdx) => { // 공모전/해커톤 팀 구인글 조회
+        const query = `SELECT p.project_name, p.description, p.img_url, t.team_name, t.title, t.description, t.total, t.participants 
+                       FROM ${PROJECT} p INNER JOIN Team t ON t.project = p.project
+                       WHERE p.categoryIdx = ${categoryIdx} And p.project = ${projectIdx}`;
+        try {
+            const result = await pool.queryParam(query);
+            return result;
+        } catch (err) {
+            console.log('showGetProject ERROR: ', err);
             throw err;
         }
     },

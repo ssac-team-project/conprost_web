@@ -12,6 +12,8 @@ module.exports = {
     
     SHOW_PROJECTS_FAIL: '프로젝트 조회 실패',
     SHOW_PROJECTS_SUCCESS: '프로젝트 조회 성공',
+    PROJECT_DETAIL_SUCCESS: '프로젝트 팀 구인글 조회 성공',
+    PROJECT_DETAIL_FALE: '프로젝트 팀 구인글 조회 성공',
 
     SHOW_TEAMS_FAIL: '팀 조회 실패',
     SHOW_TEAMS_SUCCESS: '팀 조회 성공',
@@ -27,8 +29,8 @@ module.exports = {
     UPDATE_PERIOD_FAIL: '프로젝트 기간 업데이트 실패',
     UPDATE_PERIOD_SUCCESS: '프로젝트 기간 업데이트 성공',
 
-    CONTEST_DETAIL_FAIL: '프로젝트 세부 정보 조회 실패',
-    CONTEST_DETAIL_SUCCESS: '프로젝트 세부 정보 조회 성공',
+    CONTEST_DETAIL_FAIL: '공모전/해커톤 팀 구인글 조회 실패',
+    CONTEST_DETAIL_SUCCESS: '공모전/해커톤 팀 구인글 조회 성공',
 
     TEAM_RECRUITMENT_FAIL: '팀 만들기 실패',
     TEAM_RECRUITMENT_SUCCESS: '팀 만들기 성공',

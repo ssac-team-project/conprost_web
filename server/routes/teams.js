@@ -3,9 +3,10 @@ const router = express.Router();
 
 const TeamsController = require('../controllers/teamsController');
 
-router.get('/projects/:projectIdx',TeamsController.showProjectTeams);
+//router.get('/projects/:projectIdx',TeamsController.showProjectTeams);
 router.get('/list/team/:teamIdx',TeamsController.showDetailTeamBords);
 router.get('/list/:userIdx',TeamsController.showTeamlist);
+router.get('/detail/:categoryIdx/:projectIdx',TeamsController.showDetailProject);
 
 router.post('/',TeamsController.createTeams);
 router.post('/user',TeamsController.applyTeam);

@@ -40,17 +40,6 @@ const projects = {
             console.log('updateProjectPeriod ERROR: ', err);
             throw err;
         }
-    },
-
-    showDetailProject: async (projectIdx) => { // 세부정보 조회
-        const query = `SELECT * FROM ${PROJECT} WHERE project = ${projectIdx}`; 
-        try {
-            const result = await pool.queryParam(query);
-            return result;
-        } catch (err) {
-            console.log('showDetailProject ERROR: ', err);
-            throw err;
-        }
     }
 }
 

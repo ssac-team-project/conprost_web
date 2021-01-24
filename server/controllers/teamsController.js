@@ -1,6 +1,4 @@
-const { reason } = require('../config/database');
 const TeamsModel = require('../models/teamsModel');
-const pool = require('../modules/pool');
 const resMessage = require('../modules/resMessage');
 const statusCode = require('../modules/statusCode');
 const util = require('../modules/util');
@@ -124,7 +122,44 @@ const teams = {
         }
     },
 
-    showProjectTeams: async(req,res) => {
+    showDetailProject : async (req, res) => {
+        const categoryIdx = req.params.categoryIdx;
+        const projectIdx = req.params.projectIdx;
+        try {
+            // 0 = 프로젝트/스타트업이라 가정 , 1 = 공모전/해커톤이라 가정 
+            // 프로젝트/스타트업일 경우
+            if(categoryIdx == 0)
+            {
+                const result = await TeamsModel.showGetProject(categoryIdx);
+                if (!result) {
+                    return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.PROJECT_DETAIL_FAIL));
+                } else if (result.length === 0) {
+                    return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NO_CONTENT));
+                } else {
+                    return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.PROJECT_DETAIL_SUCCESS, result));
+                }
+            }
+            // 공모전/해커톤일 경우
+            else if (categoryIdx == 1)
+            {
+                const result = await TeamsModel.showGetContest(categoryIdx,projectIdx);
+                if (!result) {
+                    return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.CONTEST_DETAIL_FAIL));
+                } else if (result.length === 0) {
+                    return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NO_CONTENT));
+                } else {
+                    return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.CONTEST_DETAIL_SUCCESS, result));
+                }
+            }
+            
+        } catch (err) {
+            console.log(err);
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+        }
+    },
+
+    /* //프로젝트 정보 뷰) 팀 구인 글 조회
+    showProjectTeams: async(req,res) => { 
         const projectIdx = req.params.projectIdx;
         try{
             const result = await TeamsModel.showProjectTeams(projectIdx);
@@ -137,7 +172,7 @@ const teams = {
             console.log(err);
             return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
         }
-    }
+    }*/
     
 }
 
