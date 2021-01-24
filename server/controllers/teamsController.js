@@ -14,11 +14,11 @@ const teams = {
            team_name,
            title,
            description,
-           total
+           total,
           } = req.body;
         try {  
             // 팀 정보값 누락
-            if (projectIdx===null|| !partIdx || !team_name || !title || !description || !total) {
+            if (projectIdx===null|| !partIdx || !team_name || !title || !description || !total ) {
                 return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NULL_VALUE));
             }
             // 중복 팀명 확인

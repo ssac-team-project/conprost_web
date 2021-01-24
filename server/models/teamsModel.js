@@ -1,13 +1,14 @@
 const pool = require('../modules/pool');
 const TEAM = 'Team'; // Team Table
-const TEAMUSER = 'TeamUser';
-const PART = 'Part';
-const USER = 'User';
+const TEAMUSER = 'TeamUser'; // TeamUser Table
+const PART = 'Part'; // Part Table
+const USER = 'User'; // User Table
 
 const teams = {
+    //프로젝트 정보 뷰) 팀 만들기
     createTeams: async(projectIdx,partIdx,team_name,title,description,total) => {
         const fields = "project,part,team_name,title,description,total";
-        const questions = '?,?,?,?,?,?';
+        const questions = '?,?,?,?,?,?,?';
         //팀 만들 시 Part테이블에 개발분야와 인원 수를 전달해야함
         const values = [projectIdx,partIdx,team_name,title,description,total];
         const query = `INSERT INTO ${TEAM}(${fields}) VALUES (${questions})`;
@@ -15,7 +16,7 @@ const teams = {
     try {
         const result = await pool.queryParamArr(query,values);
         const insertId = result.insertId;
-        return insertId; //여기서 얻은 Id값을 TeamUser 테이블에 저장하고 싶은데 어떻게 해야 할까요...?
+        return insertId; 
     } 
       catch (err) {
         console.log('createTeam ERROR: ', err);
@@ -23,6 +24,7 @@ const teams = {
         }
     },
 
+    //프로젝트 정보 뷰) 팀 신청하기
     applyTeam: async(userIdx,teamIdx) => {
         const fields = "user,team";
         const questions = '?,?';
@@ -40,6 +42,7 @@ const teams = {
         }
     },
 
+    // 팀 게시판 뷰) 상호 평가
     evaluateUser: async(score,userIdx)=>{
         const query = `UPDATE ${USER} u SET contribution = IFNULL(contribution,0) + "${score}" WHERE u.user = ${userIdx} `;
         try{
@@ -51,6 +54,7 @@ const teams = {
         }
     },
 
+    //팀 게시판 뷰) 게시판 리스트 조회
     showTeamlist: async(userIdx)=>{ //User가 속한 팀의 이름과 타이틀을 보여준다
         const query = `SELECT t.team_name, t.title
                        FROM ${TEAM} t INNER JOIN ${TEAMUSER} tu on t.team = tu.team
@@ -65,6 +69,7 @@ const teams = {
         }
     },
     
+    //팀 게시판 뷰) 게시판 세부 조회
     showDetailTeamBords: async(teamIdx)=>{ //팀원 목록과 프로젝트 소개를 보여준다.
         const query = `SELECT t.description, u.user_name
                        FROM ${TEAM} t INNER JOIN ${TEAMUSER} tu on t.team = tu.team
@@ -79,6 +84,7 @@ const teams = {
         }
     },
 
+    //프로젝트 정보 뷰) 팀 구인글 조회
     showProjectTeams: async(projectIdx)=>{ // 팀 구인글 조회
         const query = `SELECT team_name, title, description,total,participants
                        FROM ${TEAM} 
@@ -92,6 +98,7 @@ const teams = {
         }
     },
 
+    // 팀 삭제
     deleteTeam: async(teamIdx) =>{
         const query = `DELETE FROM ${TEAM} WHERE ${teamIdx}`;
         try{
