@@ -41,8 +41,7 @@ const teams = {
     },
 
     evaluateUser: async(score,userIdx)=>{
-        //정수형대로 바꿔야함.
-        const query = `UPDATE ${USER} u SET contribution = IFNULL(contribution,0) + '${score}' WHERE u.user = ${userIdx} `;
+        const query = `UPDATE ${USER} u SET contribution = IFNULL(contribution,0) + "${score}" WHERE u.user = ${userIdx} `;
         try{
             const result = await pool.queryParam(query);
             return result;

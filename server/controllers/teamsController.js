@@ -1,3 +1,4 @@
+const { reason } = require('../config/database');
 const TeamsModel = require('../models/teamsModel');
 const pool = require('../modules/pool');
 const resMessage = require('../modules/resMessage');
@@ -38,6 +39,7 @@ const teams = {
 
         const {score} = req.body;
         const userIdx = req.params.userIdx;
+        
         try{
             const result = await TeamsModel.evaluateUser(score,userIdx);
             if(!result){
