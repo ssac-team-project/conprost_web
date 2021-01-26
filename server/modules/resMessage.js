@@ -7,6 +7,10 @@ module.exports = {
     LOGIN_FAIL: '로그인 실패',
     NO_USER: '존재하지 않는 회원입니다.',
     MISS_MATCH_PW: '비밀번호가 맞지 않습니다.',
+    ALREADY_ID: '이미 존재하는 아이디입니다.',
+
+    // 회원가입
+    SIGN_UP: '회원가입 성공',
 
     SHOW_PROJECTS_FAIL: '프로젝트 조회 실패',
     SHOW_PROJECTS_SUCCESS: '프로젝트 조회 성공',

@@ -30,11 +30,11 @@ const projects = {
         }
     },
     updateProjectPeriod: async (projectIdx, period) => {
-        const query = `UPDATE ${PROJECT} SET period = '${period}' where project = ${projectIdx}`;
+        const query = `UPDATE ${PROJECT} SET period = '${period}' where id = ${projectIdx}`;
         const selectQuery = `SELECT * FROM ${PROJECT}`;
         try {
             await pool.queryParam(query);
-            const result = pool.queryParam(selectQuery);
+            const result = await pool.queryParam(selectQuery);
             return result;
         } catch (err) {
             console.log('updateProjectPeriod ERROR: ', err);
