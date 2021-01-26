@@ -30,7 +30,7 @@ const projects = {
         }
     },
     updateProjectPeriod: async (projectIdx, period) => {
-        const query = `UPDATE ${PROJECT} SET period = '${period}' where project = ${projectIdx}`;
+        const query = `UPDATE ${PROJECT} SET period = '${period}' where id = ${projectIdx}`;
         const selectQuery = `SELECT * FROM ${PROJECT}`;
         try {
             await pool.queryParam(query);

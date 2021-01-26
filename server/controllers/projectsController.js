@@ -40,7 +40,7 @@ const projects = {
         }
     },
     updateProjectPeriod: async (req, res) => {
-        const projectIdx = req.params.projectIdx;
+        const projectIdx = req.params.projectIdx; // 프로젝트 id
         const {period} = req.body;
         try {
             const result = await ProjectsModel.updateProjectPeriod(projectIdx, period);

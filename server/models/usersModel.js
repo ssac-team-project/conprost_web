@@ -3,11 +3,11 @@ const pool = require('../modules/pool');
 const USER = 'User';
 
 const users = {
-    // id, hashed, salt, user_name, email, profile_img
-    signUp: async (id, password, salt, user_name, email) => {
-        const fields = 'id, password, salt, user_name, email';
+    // user_id, hashed, salt, user_name, email, profile_img
+    signUp: async (user_id, password, salt, user_name, email) => {
+        const fields = 'user_id, password, salt, user_name, email';
         const questions = '?, ?, ?, ?, ?';
-        const values = [id, password, salt, user_name, email];
+        const values = [user_id, password, salt, user_name, email];
         const query = `INSERT INTO ${USER}(${fields}) VALUES(${questions})`;
 
         try {
@@ -19,8 +19,8 @@ const users = {
             throw err;
         }
     },
-    checkUser: async (id) => {
-        const query = `SELECT id, password, salt FROM ${USER} WHERE id = '${id}'`;
+    checkUser: async (user_id) => {
+        const query = `SELECT user_id, password, salt FROM ${USER} WHERE user_id = '${user_id}'`;
         try {
             const result = await pool.queryParam(query);
             return result;

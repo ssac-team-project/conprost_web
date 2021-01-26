@@ -10,25 +10,25 @@ const jwt = require('../modules/jwt');
 const users = {
     signUp: async (req, res) => {
         const {
-            id, 
+            user_id, 
             password,
             user_name,
             email
         } = req.body;
         try {
             // 필요한 값 누락 시
-            if (!id || !password || !user_name || !email) {
+            if (!user_id || !password || !user_name || !email) {
                 return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NULL_VALUE));
             }
             // 사용중인 아이디가 있는지 확인
-            const ID = await UsersModel.checkUser(id);
+            const ID = await UsersModel.checkUser(user_id);
             if (ID.length > 0) {
                 return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.ALREADY_ID));
             }
             // 해싱
             const {hashed, salt} = await encrypt.encrypt(password);
             // 회원가입
-            const userIdx = await UsersModel.signUp(id, hashed, salt, user_name, email);
+            const userIdx = await UsersModel.signUp(user_id, hashed, salt, user_name, email);
             return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.SIGN_UP, {user: userIdx}));
         } catch (err) {
             console.log(err);
@@ -38,17 +38,17 @@ const users = {
     },
     signIn: async (req, res) => {
         const {
-            id,
+            user_id,
             password
         } = req.body;
         
         try {
             // body에 필요한 값 누락 시
-            if (!id || !password) {
+            if (!user_id || !password) {
                 return res.status(statusCode.OK).send(util(statusCode.OK, resMessage.NULL_VALUE));
             }
             // user의 아이디가 있는지 확인
-            const user = await UsersModel.checkUser(id);
+            const user = await UsersModel.checkUser(user_id);
             if (user[0] === undefined) {
                 return res.status(statusCode.OK).send(util(statusCode.OK, resMessage.NO_USER));
             }
