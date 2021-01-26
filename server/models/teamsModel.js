@@ -7,9 +7,9 @@ const PROJECT = 'Project'; //Project Table
 
 const teams = {
     //프로젝트 정보 뷰) 팀 만들기
-    createTeams: async(projectIdx,partIdx,team_name,title,description,total) => {
-        const fields = "project,part,team_name,title,description,total";
-        const questions = '?,?,?,?,?,?,?';
+    createTeams: async(projectIdx,team_name,title,description,total) => {
+        const fields = "id,team_name,title,description,total";
+        const questions = '?,?,?,?,?';
         //팀 만들 시 Part테이블에 개발분야와 인원 수를 전달해야함
         const values = [projectIdx,partIdx,team_name,title,description,total];
         const query = `INSERT INTO ${TEAM}(${fields}) VALUES (${questions})`;
@@ -17,7 +17,7 @@ const teams = {
     try {
         const result = await pool.queryParamArr(query,values);
         const insertId = result.insertId;
-        return insertId; 
+        return insertId; //이거를 api하나 더 만들어서 밑에다가 파라미터로 추가
     } 
       catch (err) {
         console.log('createTeam ERROR: ', err);
@@ -27,7 +27,7 @@ const teams = {
 
     //프로젝트 정보 뷰) 팀 신청하기
     applyTeam: async(userIdx,teamIdx) => {
-        const fields = "user,team";
+        const fields = "userId,teamId";
         const questions = '?,?';
         const values = [userIdx,teamIdx];
         const query = `INSERT INTO ${TEAMUSER}(${fields}) VALUES(${questions})`;
@@ -45,7 +45,7 @@ const teams = {
 
     // 팀 게시판 뷰) 상호 평가
     evaluateUser: async(score,userIdx)=>{
-        const query = `UPDATE ${USER} u SET contribution = IFNULL(contribution,0) + "${score}" WHERE u.user = ${userIdx} `;
+        const query = `UPDATE ${USER} u SET contribution = IFNULL(contribution,0) + "${score}" WHERE u.id = ${userIdx} `;
         try{
             const result = await pool.queryParam(query);
             return result;
@@ -58,9 +58,9 @@ const teams = {
     //팀 게시판 뷰) 게시판 리스트 조회
     showTeamlist: async(userIdx)=>{ //User가 속한 팀의 이름과 타이틀을 보여준다
         const query = `SELECT t.team_name, t.title
-                       FROM ${TEAM} t INNER JOIN ${TEAMUSER} tu on t.team = tu.team
-                       INNER JOIN ${USER} u on tu.user = u.user
-                       WHERE u.user = ${userIdx}`;
+                       FROM ${TEAM} t INNER JOIN ${TEAMUSER} tu on t.id = tu.teamId
+                       INNER JOIN ${USER} u on tu.userId = u.id
+                       WHERE u.id = ${userIdx}`;
         try{
             result = await pool.queryParam(query);
             return result;
@@ -71,11 +71,11 @@ const teams = {
     },
     
     //팀 게시판 뷰) 게시판 세부 조회
-    showDetailTeamBords: async(teamIdx)=>{ //팀원 목록과 프로젝트 소개를 보여준다.
+    showDetailTeamBoards: async(teamIdx)=>{ //팀원 목록과 프로젝트 소개를 보여준다.
         const query = `SELECT t.description, u.user_name
-                       FROM ${TEAM} t INNER JOIN ${TEAMUSER} tu on t.team = tu.team
-                       INNER JOIN ${USER} u on tu.user = u.user
-                       WHERE t.team = ${teamIdx}`;
+                       FROM ${TEAM} t INNER JOIN ${TEAMUSER} tu on t.id = tu.teamId
+                       INNER JOIN ${USER} u on tu.userId = u.id
+                       WHERE t.id = ${teamIdx}`;
         try{
             const result = await pool.queryParam(query);
             return result;
@@ -114,10 +114,11 @@ const teams = {
         }
     },
 
+    // 게시판 세부정보 조회로 나누어놓기
     showGetContest: async (categoryIdx,projectIdx) => { // 공모전/해커톤 팀 구인글 조회
         const query = `SELECT p.project_name, p.description, p.img_url, t.team_name, t.title, t.description, t.total, t.participants 
-                       FROM ${PROJECT} p INNER JOIN Team t ON t.project = p.project
-                       WHERE p.categoryIdx = ${categoryIdx} And p.project = ${projectIdx}`;
+                       FROM ${PROJECT} p INNER JOIN Team t ON t.projectId = p.id
+                       WHERE p.categoryIdx = ${categoryIdx} And p.id = ${projectIdx}`;
         try {
             const result = await pool.queryParam(query);
             return result;
@@ -152,10 +153,10 @@ const teams = {
     },
     
     checkApply: async(userIdx) => { // User가 팀 신청을 했던 팀에 중복 신청하는지 체크한다
-        const query = `SELECT u.user
-                       FROM ${TEAM} t INNER JOIN ${TEAMUSER} tu on t.team = tu.team_user
-                       INNER JOIN ${USER} u on tu.user = u.user
-                       WHERE t.team = ${userIdx}`;
+        const query = `SELECT u.id
+                       FROM ${TEAM} t INNER JOIN ${TEAMUSER} tu on t.id = tu.teamId
+                       INNER JOIN ${USER} u on tu.userId = u.id
+                       WHERE u.id = ${userIdx}`;
         try {
             const result = await pool.queryParam(query);
             return result;

@@ -12,7 +12,7 @@ const teams = {
            team_name,
            title,
            description,
-           total,
+           total
           } = req.body;
         try {  
             // 팀 정보값 누락
@@ -86,10 +86,10 @@ const teams = {
         }
     },
 
-    showDetailTeamBords:async(req,res) =>{
+    showDetailTeamBoards:async(req,res) =>{
         const teamIdx = req.params.teamIdx;
         try{
-            const result = await TeamsModel.showDetailTeamBords(teamIdx);
+            const result = await TeamsModel.showDetailTeamBoards(teamIdx);
             if(!result){
                 return res.status(statusCode.OK).send(util.fail(statusCode.NOT_FOUND,resMessage.SHOW_TEAMS_FAIL));
             }
