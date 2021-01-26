@@ -106,6 +106,32 @@ const users = {
         } catch (err) {
             return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
         }
+    },
+    updateProfileImg: async (req, res) => {
+        const userIdx = req.decoded.id;
+        if (req.file === undefined) {
+            return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NULL_VALUE));
+        }
+        const profile_img = req.file.location;
+        console.log('req.file: ', req.file);
+        
+        // image type check
+        const type = req.file.mimetype.split('/')[1];
+
+        if (type !== 'jpeg' && type !== 'jpg' && type !== 'png') {
+            return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.UNSUPPORTED_TYPE));
+        }
+
+        try {
+            const result = await UsersModel.updateProfileImg(userIdx, profile_img);
+            if (!result) {
+                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.UPDATE_IMAGE_FAIL));
+            } else {
+                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.UPDATE_IMAGE_SUCCESS, result[0]));
+            }
+        } catch (err) {
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+        }
     }
 };
 

@@ -78,6 +78,22 @@ const users = {
             console.log('showIntro ERROR: ', err);
             throw err;
         }
+    },
+    updateProfileImg: async (userIdx, profile_img) => {
+        const query1 = `UPDATE ${USER} SET profile_img = '${profile_img}'
+                        WHERE id = ${userIdx}`;
+
+        // 아니면 그냥 넘겨주기?? (next())
+        const query2 = `SELECT id, profile_img FROM ${USER}
+                        WHERE id = ${userIdx}`;
+        try {
+            await pool.queryParam(query1);
+            result = await pool.queryParam(query2);
+            return result;
+        } catch (err) {
+            console.log('showIntro ERROR: ', err);
+            throw err;
+        }
     }
 };
 
