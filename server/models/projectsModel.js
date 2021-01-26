@@ -3,6 +3,34 @@ const pool = require('../modules/pool');
 const PROJECT = 'Project'; // Project Table 
 
 const projects = {
+    createProject: async (project_name, img_url, categoryIdx, description, period) => {
+        const fields = `project_name, img_url, categoryIdx, description, period`;
+        const questions = '?, ?, ?, ?, ?';
+        const values = [project_name, img_url, categoryIdx, description, period];
+        const query = `INSERT INTO ${PROJECT}(${fields}) VALUES(${questions})`;
+        try {
+            const result = await pool.queryParamArr(query, values);
+            const insertId = result.insertId;
+            return insertId;
+        } catch (err) {
+            console.log('createProject ERROR: ' ,err);
+            throw err;
+        }
+    },
+    createProjectWithoutImg: async (project_name, categoryIdx, description, period) => {
+        const fields = `project_name, categoryIdx, description, period`;
+        const questions = '?, ?, ?, ?';
+        const values = [project_name, categoryIdx, description, period];
+        const query = `INSERT INTO ${PROJECT}(${fields}) VALUES(${questions})`;
+        try {
+            const result = await pool.queryParamArr(query, values);
+            const insertId = result.insertId;
+            return insertId;
+        } catch (err) {
+            console.log('createProject ERROR: ' ,err);
+            throw err;
+        }
+    },
     // showProjects) 프로젝트 관련 정보 조회 - 프로젝트/스타트업 등은 바로 팀원 모집 글 조회
     showProjects: async (categoryIdx) => {
         const query = `SELECT * FROM ${PROJECT} WHERE categoryIdx = ${categoryIdx} ORDER BY scrap desc`; // 스크랩순

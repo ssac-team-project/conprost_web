@@ -6,6 +6,40 @@ const statusCode = require('../modules/statusCode');
 const util = require('../modules/util');
 
 const projects = {
+    createProject: async (req, res) => {
+        const {
+            project_name,
+            categoryIdx,
+            description,
+            period
+        } = req.body;
+
+        // 이미지 값 받아오기
+        const img_url = req.file.location;
+        console.log(img_url);
+
+        if (!project_name || !categoryIdx || !description || !period) {
+            return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NULL_VALUE));
+        }
+        try {
+            // 이미지 있는거랑 없는거랑 따로 만들어줘야 하나?
+            let result = {};
+            if (img_url ===  undefined) {
+                result = await ProjectsModel.createProjectWithoutImg(project_name, categoryIdx, description, period);
+            } else {
+                result = await ProjectsModel.createProject(project_name, img_url, categoryIdx, description, period);
+            }
+
+            if (!result) {
+                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.CREATE_PROJECT_FAIL));
+            } else {
+                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.CREATE_PROJECT_SUCCESS, result));
+            }
+        } catch (err) {
+            // console.log(err);
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+        }
+    },
     showProjects : async (req, res) => {
         const categoryIdx = req.params.categoryIdx;
         try {
@@ -40,7 +74,7 @@ const projects = {
         }
     },
     updateProjectPeriod: async (req, res) => {
-        const projectIdx = req.params.projectIdx; // 프로젝트 id
+        const projectIdx = req.params.projectIdx;
         const {period} = req.body;
         try {
             const result = await ProjectsModel.updateProjectPeriod(projectIdx, period);
