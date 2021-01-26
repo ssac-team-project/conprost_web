@@ -75,7 +75,7 @@ const users = {
             if (!result) {
                 return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.READ_PROFILE_FAIL));
             } else {
-                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.READ_PROFILE_SUCCESS, result));
+                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.READ_PROFILE_SUCCESS, result[0]));
             }
         } catch (err) {
             return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
@@ -85,11 +85,23 @@ const users = {
         const userIdx = req.decoded.id;
         try {
             const result = await UsersModel.showTeamName(userIdx);
-            console.log(result);
             if (result === undefined) {
                 return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NO_TEAM_NAME));
             } else {
-                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.READ_TEAMNAME_SUCCESS, result));
+                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.READ_TEAMNAME_SUCCESS, result[0]));
+            }
+        } catch (err) {
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+        }
+    },
+    showIntro: async (req, res) => {
+        const userIdx = req.decoded.id;
+        try {
+            const result = await UsersModel.showIntro(userIdx);
+            if (!result) {
+                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.READ_INTRO_FAIL));
+            } else {
+                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.READ_INTRO_SUCCESS, result[0]));
             }
         } catch (err) {
             return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));

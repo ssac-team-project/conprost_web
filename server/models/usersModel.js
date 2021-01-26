@@ -45,10 +45,9 @@ const users = {
         }
     },
     showTeamName: async (userIdx) => {
-        const query1 = `SELECT u.id, tu.userId 
-                        FROM ${USER} u INNER JOIN ${TEAM_USER} tu 
-                        ON u.id = tu.userId 
-                        WHERE u.id = ${userIdx};`
+        const query1 = `SELECT userId 
+                        FROM ${TEAM_USER}
+                        WHERE userId = ${userIdx};`
         const query2 = `SELECT tu.userId, t.team_name
                         FROM ${TEAM_USER} tu INNER JOIN ${TEAM} t
                         ON tu.teamId = t.id
@@ -65,6 +64,18 @@ const users = {
             return result;
         } catch (err) {
             console.log('showTeamName ERROR: ', err);
+            throw err;
+        }
+    },
+    showIntro: async (userIdx) => {
+        const query = `SELECT id, introduction, contribution, part_name
+                        FROM ${USER}
+                        WHERE id = ${userIdx}`;
+        try {
+            const result = await pool.queryParam(query);
+            return result;
+        } catch (err) {
+            console.log('showIntro ERROR: ', err);
             throw err;
         }
     }
