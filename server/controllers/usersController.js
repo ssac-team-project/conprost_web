@@ -58,6 +58,7 @@ const users = {
                 return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.MISS_MATCH_PW));
             }
             // 로그인 성공 (refreshToken은 말고 accessToken만 사용)
+            console.log(user[0]);
             const {token, _} = await jwt.sign(user[0]);
 
             return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.LOGIN_SUCCESS, {accessToken: token}));
@@ -66,6 +67,34 @@ const users = {
             return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
         }
     },
+    showProfile: async (req, res) => {
+        const userIdx = req.decoded.id;
+
+        try {
+            const result = await UsersModel.showProfile(userIdx);
+            if (!result) {
+                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.READ_PROFILE_FAIL));
+            } else {
+                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.READ_PROFILE_SUCCESS, result));
+            }
+        } catch (err) {
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+        }
+    },
+    showTeamName: async (req, res) => {
+        const userIdx = req.decoded.id;
+        try {
+            const result = await UsersModel.showTeamName(userIdx);
+            console.log(result);
+            if (result === undefined) {
+                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NO_TEAM_NAME));
+            } else {
+                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.READ_TEAMNAME_SUCCESS, result));
+            }
+        } catch (err) {
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+        }
+    }
 };
 
 module.exports = users;

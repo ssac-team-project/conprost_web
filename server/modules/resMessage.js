@@ -27,6 +27,14 @@ module.exports = {
     TEAM_RECRUITMENT_FAIL: '공모전 세부 정보 조회 실패',
     TEAM_RECRUITMENT_SUCCESS: '공모전 세부 정보 조회 성공',
 
+    // 마이페이지
+    READ_PROFILE_FAIL: '프로필 조회 실패',
+    READ_PROFILE_SUCCESS: '프로필 조회 성공',
+
+    READ_TEAMNAME_FAIL: '팀 이름 조회 실패',
+    NO_TEAM_NAME: '팀명 없음',
+    READ_TEAMNAME_SUCCESS: '팀 이름 조회 성공',
+
     // 인증
     EMPTY_TOKEN: '토큰 값이 없습니다.',
     EXPIRED_TOKEN: '토큰 값이 만료되었습니다.',
