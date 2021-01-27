@@ -8,15 +8,16 @@ const teams = {
         const 
          { 
            projectIdx,
-           partIdx,
            team_name,
            title,
            description,
-           total
+           total,
+           part_name,
+           required_nums
           } = req.body;
         try {  
             // 팀 정보값 누락
-            if (projectIdx===null|| !partIdx || !team_name || !title || !description || !total ) {
+            if (projectIdx===null|| !team_name || !title || !description || !total || !part_name || !required_nums ) {
                 return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NULL_VALUE));
             }
             // 중복 팀명 확인
@@ -24,7 +25,8 @@ const teams = {
             if(teamname.length > 0 ){
                 return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.ALREADY_TEAM_NAME));
             }
-                const result = await TeamsModel.createTeams(projectIdx,partIdx,team_name,title,description,total);
+                const result = await TeamsModel.createTeams(projectIdx,team_name,title,description,total);
+                await TeamsModel.createPart(result,part_name,required_nums);
                 return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.TEAM_RECRUITMENT_SUCCESS, result));
             
         } catch (err) {
@@ -52,7 +54,16 @@ const teams = {
         }
     },
 
+    showProjectInfo: async(req,res) =>{
+        const projectIdx = req.params.projectIdx;
+        try{
+            const result = await TeamsModel.showProjectInfo(projectIdx);
 
+        }catch(err){
+            console.log(err);
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+        }
+    },
 
     deleteTeam: async(req,res)=>{ //팀삭제
         const teamIdx = req.params.teamIdx;
@@ -105,7 +116,8 @@ const teams = {
     applyTeam: async(req,res) =>{
         const {
             userIdx,
-            teamIdx
+            teamIdx,
+            part_name
         } = req.body
         try {
             //같은 팀에 신청하는지 확인
@@ -113,7 +125,7 @@ const teams = {
            if(apply === userIdx){
                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.ALREADY_TEAM));
            } 
-             const result = await TeamsModel.applyTeam(userIdx,teamIdx)
+             const result = await TeamsModel.applyTeam(userIdx,teamIdx,part_name)
              return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.APPLY_TEAM_SUCCESS, result));
 
         }catch(err){
@@ -158,6 +170,62 @@ const teams = {
         }
     },
 
+    addScrap: async(req,res) =>{
+        const {
+            userIdx,
+            projectIdx
+            }=req.body;
+        try{
+            const result = await TeamsModel.addScrap(userIdx,projectIdx);
+            if(!result)
+                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.SCRAP_FAIL));
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.SCRAP_SUCCESS, result));
+        }catch(err){
+            console.log(err);
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+        }
+    },
+
+    showProjectFilter: async(req,res) =>{
+        // 1 = 최신순 , 2 = 인기순 , 3 = 마감순 
+        const filterIdx = req.params.filterIdx;
+        try{
+            if(filterIdx == 1){
+                const result = await TeamsModel.showNewFilter();
+                if(!result)
+                    return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NO_PROJECT));
+                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.NEW_FILTER_SUCCESS, result));
+            }
+            else if(filterIdx == 2){
+                const result = await TeamsModel.showPopulaFilter();
+                if(!result)
+                    return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NO_PROJECT));
+                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.POPULAR_FILTER_SUCCESS, result));
+            }
+            else if(filterIdx == 3){
+                const result = await TeamsModel.showPeriodFilter();
+                if(!result)
+                    return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NO_PROJECT));
+                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.POPULAR_FILTER_SUCCESS, result));
+            }
+        }catch(err){
+            console.log(err);
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+        }
+    },
+
+    showScrap: async(req,res) => {
+        const userIdx = req.params.userIdx;
+        try{
+            const result = await TeamsModel.showScrap(userIdx);
+            if(!result)
+                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NO_SCRAP));
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.POPULAR_FILTER_SUCCESS, result));
+        }catch(err){
+            console.log(err);
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+        }
+    }
     /* //프로젝트 정보 뷰) 팀 구인 글 조회
     showProjectTeams: async(req,res) => { 
         const projectIdx = req.params.projectIdx;

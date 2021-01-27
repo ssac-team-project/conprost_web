@@ -20,6 +20,9 @@ module.exports = {
     DELETE_TEAMS_SUCCESS: '팀 삭제 성공',
     SHOW_TEAM_LIST_SUCCESS: '팀 리스트 조회 성공',
 
+    NO_SCRAP: '스크랩한 프로젝트가 없습니다.',
+    SCRAP_FAIL: '스크랩 실패',
+
     APPLY_TEAM_SECCESS: '팀 신청이 완료되었습니다.',
     ALREADY_TEAM: '이미 속한 팀 입니다.',
 
