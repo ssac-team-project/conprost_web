@@ -13,38 +13,44 @@ module.exports = {
     // 회원가입
     SIGN_UP: '회원가입 성공',
 
+    // 필터
+    POPULAR_FILTER_SUCCESS: '인기순 정렬 성공',
+    PERIOD_FILTER_SUCCESS: '마감순 정렬 성공',
+    NEW_FILTER_SUCCESS: '최신순 정렬 성공',
     EVALUATE_SUCCESS: '유저평가 성공',
     
+    //프로젝트
     SHOW_PROJECTS_FAIL: '프로젝트 조회 실패',
     SHOW_PROJECTS_SUCCESS: '프로젝트 조회 성공',
     PROJECT_DETAIL_SUCCESS: '프로젝트 팀 구인글 조회 성공',
     PROJECT_DETAIL_FALE: '프로젝트 팀 구인글 조회 성공',
+    UPDATE_PERIOD_FAIL: '프로젝트 기간 업데이트 실패',
+    UPDATE_PERIOD_SUCCESS: '프로젝트 기간 업데이트 성공',
 
+    //팀 
     SHOW_TEAMS_FAIL: '팀 조회 실패',
     SHOW_TEAMS_SUCCESS: '팀 조회 성공',
     DELETE_TEAMS_SUCCESS: '팀 삭제 성공',
     SHOW_TEAM_LIST_SUCCESS: '팀 리스트 조회 성공',
-
-    NO_SCRAP: '스크랩한 프로젝트가 없습니다.',
-    SCRAP_FAIL: '스크랩 실패',
-
-    APPLY_TEAM_SECCESS: '팀 신청이 완료되었습니다.',
+    APPLY_TEAM_SUCCESS: '팀 신청이 완료되었습니다.',
     ALREADY_TEAM: '이미 속한 팀 입니다.',
-
-    SEARCH_FAIL: '검색 실패',
-    SEARCH_SUCCESS: '검색 성공',
-
-    UPDATE_PERIOD_FAIL: '프로젝트 기간 업데이트 실패',
-    UPDATE_PERIOD_SUCCESS: '프로젝트 기간 업데이트 성공',
-
     CONTEST_DETAIL_FAIL: '공모전/해커톤 팀 구인글 조회 실패',
     CONTEST_DETAIL_SUCCESS: '공모전/해커톤 팀 구인글 조회 성공',
-
     TEAM_RECRUITMENT_FAIL: '팀 만들기 실패',
     TEAM_RECRUITMENT_SUCCESS: '팀 만들기 성공',
-
+    SHOW_TEAMS_LIST_FAIL: '팀 리스트 조회 실패',
+    SHOW_TEAMS_LIST_SUCCESS: '팀 리스트 조회 성공',
     ALREADY_TEAM_NAME: '중복된 팀 이름 입니다.',
+    
+    //스크랩
+    NO_SCRAP: '스크랩한 프로젝트가 없습니다.',
+    SCRAP_FAIL: '스크랩 실패',
+    SCRAP_SUCCESS: '스크랩 성공',
+    SHOW_SCRAP_SUCCESS: '스크랩 보여주기 성공',
 
+    //검색
+    SEARCH_FAIL: '검색 실패',
+    SEARCH_SUCCESS: '검색 성공',
     //팀 구인 조회
     NO_PROJECT: '해당되는 프로젝트가 없습니다.',
     NO_TEAM: '해당되는 팀이 없습니다.',
