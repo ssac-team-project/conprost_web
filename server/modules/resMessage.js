@@ -2,6 +2,7 @@ module.exports = {
     NULL_VALUE: '필요한 값이 없습니다',
     OUT_OF_VALUE: '파라미터 값이 잘못되었습니다',
     NO_CONTENT: '내역 없음',
+    UNSUPPORTED_TYPE: '지원하지 않는 타입입니다',
     // 로그인
     LOGIN_SUCCESS: '로그인 성공',
     LOGIN_FAIL: '로그인 실패',
@@ -26,6 +27,20 @@ module.exports = {
 
     TEAM_RECRUITMENT_FAIL: '공모전 세부 정보 조회 실패',
     TEAM_RECRUITMENT_SUCCESS: '공모전 세부 정보 조회 성공',
+
+    // 마이페이지
+    READ_PROFILE_FAIL: '프로필 조회 실패',
+    READ_PROFILE_SUCCESS: '프로필 조회 성공',
+
+    READ_TEAMNAME_FAIL: '팀 이름 조회 실패',
+    NO_TEAM_NAME: '팀명 없음',
+    READ_TEAMNAME_SUCCESS: '팀 이름 조회 성공',
+
+    READ_INTRO_FAIL: '소개글 조회 실패',
+    READ_INTRO_SUCCESS: '소개글 조회 성공',
+    
+    UPDATE_IMAGE_FAIL: '이미지 업데이트 실패',
+    UPDATE_IMAGE_SUCCESS: '이미지 업데이트 성공',
 
     // 인증
     EMPTY_TOKEN: '토큰 값이 없습니다.',

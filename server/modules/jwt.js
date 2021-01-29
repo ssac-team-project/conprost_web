@@ -9,8 +9,8 @@ module.exports = {
     sign: async (user) => {
         // user 객체의 idx와 name 데이터를 주고받음.
         const payload = {
-            idx: user.user,
-            name: user.user_name
+            id: user.id,
+            user_id: user.user_id
         };
         const result = {
             token: jwt.sign(payload, secretKey, options),
@@ -31,7 +31,6 @@ module.exports = {
                 return TOKEN_EXPIRED;
             } else if (err.message === 'invalid token') {
                 console.log('invalid token');
-                console.log(TOKEN_INVALID);
                 return TOKEN_INVALID;
             } else {
                 console.log("invalid token");
