@@ -1,6 +1,4 @@
 const ProjectsModel = require('../models/projectsModel');
-// const pool = require('../modules/pool');
-
 const resMessage = require('../modules/resMessage');
 const statusCode = require('../modules/statusCode');
 const util = require('../modules/util');
