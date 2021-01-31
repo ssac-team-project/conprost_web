@@ -1,6 +1,29 @@
 const pool = require('../modules/pool');
+const teamsQuery = require('../modules/teamsQuery');
 
 const teams = {
+    //프로젝트 정보 뷰) 세부 정보 조회
+    /*async showProjectInfo (projectIdx) {
+        const query = `SELECT * FROM Project WHERE Project.id = ${projectIdx}`;
+        try{
+            const result = await pool.queryParam(query);
+            return result;
+        }catch(err){
+            console.log('showProjectInfo ERROR: ',err);
+            throw err;
+        }
+    },*/
+    //프로젝트 정보 뷰) 세부 정보 조회
+    async showProjectInfo (query) {
+        try{
+            const result = await pool.queryParam(query);
+            return result;
+        }catch(err){
+            console.log('showProjectInfo ERROR: ',err);
+            throw err;
+        }
+    },
+
     //프로젝트 정보 뷰) 팀 만들기
     createTeams: async(projectIdx,team_name,title,description,total) => {
         //팀 만들 시 Part테이블에 개발분야와 인원 수를 전달해야함
@@ -50,17 +73,7 @@ const teams = {
         }
     },
 
-    //프로젝트 정보 뷰) 세부 정보 조회
-    showProjectInfo: async(projectIdx) =>{
-        const query = `SELECT * FROM Project WHERE Project.id = ${projectIdx}`;
-        try{
-            const result = await pool.queryParam(query);
-            return result;
-        }catch(err){
-            console.log('showProjectInfo ERROR: ',err);
-            throw err;
-        }
-    },
+    
 
     // 팀 게시판 뷰) 상호 평가
     evaluateUser: async(score,userIdx)=>{

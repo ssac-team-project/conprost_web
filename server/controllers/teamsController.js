@@ -1,6 +1,7 @@
 const TeamsModel = require('../models/teamsModel');
 const resMessage = require('../modules/resMessage');
 const statusCode = require('../modules/statusCode');
+const teamsQuery = require('../modules/teamsQuery');
 const util = require('../modules/util');
 
 const teams = {
@@ -54,7 +55,7 @@ const teams = {
         }
     },
 
-    showProjectInfo: async(req,res) =>{
+    /*showProjectInfo: async(req,res) =>{
         const projectIdx = req.params.projectIdx;
         try{
             const result = await TeamsModel.showProjectInfo(projectIdx);
@@ -68,7 +69,25 @@ const teams = {
             console.log(err);
             return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
         }
+    },*/
+
+    async showProjectInfo (req,res) {
+        const projectIdx = req.params.projectIdx;
+        const query = await teamsQuery.showProjectInfo(projectIdx);
+        try{
+            const result = await TeamsModel.showProjectInfo(query);
+            if(!result){
+                return res.status(statusCode.OK).send(util.fail(statusCode.NOT_FOUND,resMessage.NO_PROJECT));
+            }
+            else{
+                return res.status(statusCode.OK).send(util.success(statusCode.OK,resMessage.SHOW_PROJECTS_SUCCESS,result));
+            }
+        }catch(err){
+            console.log(err);
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+        }
     },
+    
 
     deleteTeam: async(req,res)=>{ //팀삭제
         const teamIdx = req.params.teamIdx;
