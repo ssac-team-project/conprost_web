@@ -3,17 +3,18 @@ const teamsQuery = require('../modules/teamsQuery');
 
 const teams = {
     //프로젝트 정보 뷰) 세부 정보 조회
-    /*async showProjectInfo (projectIdx) {
-        const query = `SELECT * FROM Project WHERE Project.id = ${projectIdx}`;
+    async showProjectInfo (projectIdx) {
+        const values = projectIdx;
+        const query = await teamsQuery.showProjectInfo;
         try{
-            const result = await pool.queryParam(query);
+            const result = await pool.queryParamArr(query,values);
             return result;
         }catch(err){
             console.log('showProjectInfo ERROR: ',err);
             throw err;
         }
-    },*/
-    //프로젝트 정보 뷰) 세부 정보 조회
+    },
+    /*//프로젝트 정보 뷰) 세부 정보 조회
     async showProjectInfo (query) {
         try{
             const result = await pool.queryParam(query);
@@ -22,7 +23,7 @@ const teams = {
             console.log('showProjectInfo ERROR: ',err);
             throw err;
         }
-    },
+    },*/
 
     //프로젝트 정보 뷰) 팀 만들기
     createTeams: async(projectIdx,team_name,title,description,total) => {

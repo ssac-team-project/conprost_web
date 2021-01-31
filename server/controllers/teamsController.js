@@ -55,7 +55,7 @@ const teams = {
         }
     },
 
-    /*showProjectInfo: async(req,res) =>{
+    showProjectInfo: async(req,res) =>{
         const projectIdx = req.params.projectIdx;
         try{
             const result = await TeamsModel.showProjectInfo(projectIdx);
@@ -69,9 +69,9 @@ const teams = {
             console.log(err);
             return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
         }
-    },*/
+    },
 
-    async showProjectInfo (req,res) {
+    /*async showProjectInfo (req,res) {
         const projectIdx = req.params.projectIdx;
         const query = await teamsQuery.showProjectInfo(projectIdx);
         try{
@@ -86,7 +86,7 @@ const teams = {
             console.log(err);
             return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
         }
-    },
+    },*/
     
 
     deleteTeam: async(req,res)=>{ //팀삭제
