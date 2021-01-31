@@ -1,16 +1,11 @@
 const pool = require('../modules/pool');
 
-const USER = 'User';
-const TEAM = 'Team';
-const TEAM_USER = 'TeamUser';
-
 const users = {
     // user_id, hashed, salt, user_name, email, profile_img
     signUp: async (user_id, password, salt, user_name, email) => {
-        const fields = 'user_id, password, salt, user_name, email';
         const questions = '?, ?, ?, ?, ?';
         const values = [user_id, password, salt, user_name, email];
-        const query = `INSERT INTO ${USER}(${fields}) VALUES(${questions})`;
+        const query = `INSERT INTO User(user_id, password, salt, user_name, email) VALUES(${questions})`;
 
         try {
             const result = await pool.queryParamArr(query, values);
@@ -22,7 +17,8 @@ const users = {
         }
     },
     checkUser: async (user_id) => {
-        const query = `SELECT id, user_id, password, salt FROM ${USER} WHERE user_id = '${user_id}'`;
+        const query = `SELECT id, user_id, password, salt 
+                        FROM User WHERE user_id = '${user_id}'`;
         try {
             const result = await pool.queryParam(query);
             return result;
@@ -34,7 +30,7 @@ const users = {
     showProfile: async (userIdx) => {
         // 팀원 신청되면 팀명도 같이
         const query = `SELECT id, user_id, user_name, email, profile_img
-                        FROM ${USER}
+                        FROM User
                         WHERE id = ${userIdx}`;
         try {
             const result = await pool.queryParam(query);
@@ -46,10 +42,10 @@ const users = {
     },
     showTeamName: async (userIdx) => {
         const query1 = `SELECT userId 
-                        FROM ${TEAM_USER}
+                        FROM TeamUser
                         WHERE userId = ${userIdx};`
         const query2 = `SELECT tu.userId, t.team_name
-                        FROM ${TEAM_USER} tu INNER JOIN ${TEAM} t
+                        FROM TeamUser tu INNER JOIN Team t
                         ON tu.teamId = t.id
                         WHERE tu.userId = ${userIdx}`;
         try {
@@ -69,7 +65,7 @@ const users = {
     },
     showIntro: async (userIdx) => {
         const query = `SELECT id, introduction, contribution, part_name
-                        FROM ${USER}
+                        FROM User
                         WHERE id = ${userIdx}`;
         try {
             const result = await pool.queryParam(query);
@@ -80,11 +76,11 @@ const users = {
         }
     },
     updateProfileImg: async (userIdx, profile_img) => {
-        const query1 = `UPDATE ${USER} SET profile_img = '${profile_img}'
+        const query1 = `UPDATE User SET profile_img = '${profile_img}'
                         WHERE id = ${userIdx}`;
 
         // 아니면 그냥 넘겨주기?? (next())
-        const query2 = `SELECT id, profile_img FROM ${USER}
+        const query2 = `SELECT id, profile_img FROM User
                         WHERE id = ${userIdx}`;
         try {
             await pool.queryParam(query1);
