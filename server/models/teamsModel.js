@@ -4,18 +4,18 @@ const teamsQuery = require('../modules/teamsQuery');
 const teams = {
     //프로젝트 정보 뷰) 세부 정보 조회
     async showProjectInfo (projectIdx) {
-        const values = projectIdx;
-        const query = await teamsQuery.showProjectInfo;
-        try{
-            const result = await pool.queryParamArr(query,values);
-            return result;
-        }catch(err){
-            console.log('showProjectInfo ERROR: ',err);
-            throw err;
-        }
+        let query = teamsQuery.showProjectInfo;
+        let result = pool.queryParamArr(query,projectIdx,(err)=>{
+                console.log('showProjectInfo ERRIR: ',err);
+        });
+        let values = await Promise.all([query,result]);
+        return values;
     },
+        
+    
     /*//프로젝트 정보 뷰) 세부 정보 조회
     async showProjectInfo (query) {
+        const query = teamsQuery.showProjectInfo;
         try{
             const result = await pool.queryParam(query);
             return result;

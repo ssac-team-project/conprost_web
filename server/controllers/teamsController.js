@@ -57,6 +57,7 @@ const teams = {
 
     showProjectInfo: async(req,res) =>{
         const projectIdx = req.params.projectIdx;
+        
         try{
             const result = await TeamsModel.showProjectInfo(projectIdx);
             if(!result){
