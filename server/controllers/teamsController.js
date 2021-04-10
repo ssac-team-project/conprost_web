@@ -55,7 +55,7 @@ const teams = {
         }
     },
 
-    showProjectInfo: async(req,res) =>{
+    async showProjectInfo (req,res) {
         const projectIdx = req.params.projectIdx;
         
         try{

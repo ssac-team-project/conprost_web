@@ -1,4 +1,5 @@
 const poolPromise = require('../config/database');
+const getConnection = require('../config/database')
 
 module.exports = { 
     queryParam: async (query) => {

@@ -1,15 +1,20 @@
 const pool = require('../modules/pool');
 const teamsQuery = require('../modules/teamsQuery');
+const resMessage = require('../modules/resMessage');
 
 const teams = {
     //프로젝트 정보 뷰) 세부 정보 조회
     async showProjectInfo (projectIdx) {
-        let query = teamsQuery.showProjectInfo;
-        let result = pool.queryParamArr(query,projectIdx,(err)=>{
-                console.log('showProjectInfo ERRIR: ',err);
-        });
-        let values = await Promise.all([query,result]);
-        return values;
+        try{
+            //await Promise.all([query = teamsQuery.showProjectInfo, 
+            //                 result = pool.queryParamArr(query,projectIdx)]);
+            const query = await `SELECT * FROM Project WHERE Project.id = ${projectIdx}`;
+            const result = await pool.queryParam(query);
+             return await result;
+        }catch(err){
+            console.log('showProjectInfo ERROR: ',err);
+            throw err;
+        }
     },
         
     
@@ -26,10 +31,10 @@ const teams = {
     },*/
 
     //프로젝트 정보 뷰) 팀 만들기
-    createTeams: async(projectIdx,team_name,title,description,total) => {
+    createTeams: async(projectIdx,teamName,title,description,total) => {
         //팀 만들 시 Part테이블에 개발분야와 인원 수를 전달해야함
-        const values = [projectIdx,team_name,title,description,total];
-        const query = `INSERT INTO Team(projectId,team_name,title,description,total) VALUES (?,?,?,?,?)`;
+        const values = [projectIdx,teamName,title,description,total];
+        const query = `INSERT INTO Team(projectId,teamName,title,description,total) VALUES (?,?,?,?,?)`;
         
     try {
         const result = await pool.queryParamArr(query,values);
