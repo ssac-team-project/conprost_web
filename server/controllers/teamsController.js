@@ -1,6 +1,7 @@
 const TeamsModel = require('../models/teamsModel');
 const resMessage = require('../modules/resMessage');
 const statusCode = require('../modules/statusCode');
+const teamsQuery = require('../modules/teamsQuery');
 const util = require('../modules/util');
 
 const teams = {
@@ -54,16 +55,40 @@ const teams = {
         }
     },
 
-    showProjectInfo: async(req,res) =>{
+    async showProjectInfo (req,res) {
         const projectIdx = req.params.projectIdx;
+        
         try{
             const result = await TeamsModel.showProjectInfo(projectIdx);
-
+            if(!result){
+                return res.status(statusCode.OK).send(util.fail(statusCode.NOT_FOUND,resMessage.NO_PROJECT));
+            }
+            else{
+                return res.status(statusCode.OK).send(util.success(statusCode.OK,resMessage.SHOW_PROJECTS_SUCCESS,result));
+            }
         }catch(err){
             console.log(err);
             return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
         }
     },
+
+    /*async showProjectInfo (req,res) {
+        const projectIdx = req.params.projectIdx;
+        const query = await teamsQuery.showProjectInfo(projectIdx);
+        try{
+            const result = await TeamsModel.showProjectInfo(query);
+            if(!result){
+                return res.status(statusCode.OK).send(util.fail(statusCode.NOT_FOUND,resMessage.NO_PROJECT));
+            }
+            else{
+                return res.status(statusCode.OK).send(util.success(statusCode.OK,resMessage.SHOW_PROJECTS_SUCCESS,result));
+            }
+        }catch(err){
+            console.log(err);
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
+        }
+    },*/
+    
 
     deleteTeam: async(req,res)=>{ //팀삭제
         const teamIdx = req.params.teamIdx;
@@ -86,7 +111,7 @@ const teams = {
         try{
             const result = await TeamsModel.showTeamlist(userIdx);
             if(!result){
-                return res.status(statusCode.OK).send(util.fail(statusCode.NOT_FOUND,resMessage.SHOW_TEAMS_FAIL));
+                return res.status(statusCode.OK).send(util.fail(statusCode.NOT_FOUND,resMessage.SHOW_TEAMS_LIST_sFAIL));
             }
             else{
                 return res.status(statusCode.OK).send(util.success(statusCode.OK,resMessage.SHOW_TEAM_LIST_SUCCESS,result));
@@ -102,7 +127,7 @@ const teams = {
         try{
             const result = await TeamsModel.showDetailTeamBoards(teamIdx);
             if(!result){
-                return res.status(statusCode.OK).send(util.fail(statusCode.NOT_FOUND,resMessage.SHOW_TEAMS_FAIL));
+                return res.status(statusCode.OK).send(util.fail(statusCode.NOT_FOUND,resMessage.SHOW_TEAMS_LIST_FAIL));
             }
             else{
                 return res.status(statusCode.OK).send(util.success(statusCode.OK,resMessage.SHOW_TEAM_LIST_SUCCESS,result));
@@ -206,7 +231,7 @@ const teams = {
                 const result = await TeamsModel.showPeriodFilter();
                 if(!result)
                     return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NO_PROJECT));
-                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.POPULAR_FILTER_SUCCESS, result));
+                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.PERIOD_FILTER_SUCCESS, result));
             }
         }catch(err){
             console.log(err);
@@ -220,28 +245,12 @@ const teams = {
             const result = await TeamsModel.showScrap(userIdx);
             if(!result)
                 return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NO_SCRAP));
-            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.POPULAR_FILTER_SUCCESS, result));
+            return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.SHOW_SCRAP_SUCCESS, result));
         }catch(err){
             console.log(err);
             return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
         }
-    }
-    /* //프로젝트 정보 뷰) 팀 구인 글 조회
-    showProjectTeams: async(req,res) => { 
-        const projectIdx = req.params.projectIdx;
-        try{
-            const result = await TeamsModel.showProjectTeams(projectIdx);
-            if(!result){
-                return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.SHOW_TEAMS_FAIL));
-            }else {
-                return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.SHOW_TEAMS_SUCCESS, result));
-            }
-        }catch(err){
-            console.log(err);
-            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR, resMessage.DB_ERROR));
-        }
-    }*/
-    
+    } 
 }
 
 module.exports = teams;

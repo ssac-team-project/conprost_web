@@ -6,17 +6,17 @@ const util = require('../modules/util');
 const projects = {
     createProject: async (req, res) => {
         const {
-            project_name,
+            projectName,
             categoryIdx,
             description,
             period
         } = req.body;
 
         // 이미지 값 받아오기
-        const img_url = req.file.location;
-        console.log(img_url);
+        //const img_url = req.file.location;
+        //console.log(img_url);
 
-        if (!project_name || !categoryIdx || !description || !period) {
+        if (!projectName || !categoryIdx || !description || !period) {
             return res.status(statusCode.OK).send(util.fail(statusCode.OK, resMessage.NULL_VALUE));
         }
         try {

@@ -3,10 +3,10 @@ const pool = require('../modules/pool');
 const PROJECT = 'Project'; // Project Table 
 
 const projects = {
-    createProject: async (project_name, img_url, categoryIdx, description, period) => {
-        const fields = `project_name, img_url, categoryIdx, description, period`;
-        const questions = '?, ?, ?, ?, ?';
-        const values = [project_name, img_url, categoryIdx, description, period];
+    createProject: async (projectName, categoryIdx, description, period) => {
+        const fields = `projectName, categoryIdx, description, period`;
+        const questions = '?, ?, ?, ?';
+        const values = [projectName, categoryIdx, description, period];
         const query = `INSERT INTO ${PROJECT}(${fields}) VALUES(${questions})`;
         try {
             const result = await pool.queryParamArr(query, values);
@@ -17,6 +17,21 @@ const projects = {
             throw err;
         }
     },
+
+    // createProject: async (project_name, img_url, categoryIdx, description, period) => {
+    //     const fields = `project_name, img_url, categoryIdx, description, period`;
+    //     const questions = '?, ?, ?, ?, ?';
+    //     const values = [project_name, img_url, categoryIdx, description, period];
+    //     const query = `INSERT INTO ${PROJECT}(${fields}) VALUES(${questions})`;
+    //     try {
+    //         const result = await pool.queryParamArr(query, values);
+    //         const insertId = result.insertId;
+    //         return insertId;
+    //     } catch (err) {
+    //         console.log('createProject ERROR: ' ,err);
+    //         throw err;
+    //     }
+    // },
     createProjectWithoutImg: async (project_name, categoryIdx, description, period) => {
         const fields = `project_name, categoryIdx, description, period`;
         const questions = '?, ?, ?, ?';

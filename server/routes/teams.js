@@ -5,7 +5,7 @@ const TeamsController = require('../controllers/teamsController');
 
 
 router.get('/detail/projects/:categoryIdx/:projectIdx',TeamsController.showDetailProject);
-router.get('/list/projects:projectIdx',TeamsController.showProjectInfo);
+router.get('/list/projects/:projectIdx',TeamsController.showProjectInfo);
 router.get('/list/team/:teamIdx',TeamsController.showDetailTeamBoards);
 router.get('/list/:userIdx',TeamsController.showTeamlist);
 router.get('/detail/:categoryIdx/:projectIdx',TeamsController.showDetailProject); 
