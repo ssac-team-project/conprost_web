@@ -36,6 +36,17 @@ const teams = {
             }
     },
 
+    showTeamsList: async (req,res)=>{
+        try{
+            const result = await TeamsModel.getTeamList();
+            return res.send(result);
+        }
+        catch(e){
+            console.log(e,'실패');
+            return res.status(statusCode.DB_ERROR).send(util.fail(statusCode.DB_ERROR,resMessage.DB_ERROR));
+        }
+    },
+
     evaluateUser: async(req,res)=>{ //User모델로 옮길것
 
         const {score} = req.body;

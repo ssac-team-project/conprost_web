@@ -6,17 +6,25 @@ const teams = {
     //프로젝트 정보 뷰) 세부 정보 조회
     async showProjectInfo (projectIdx) {
         try{
-            //await Promise.all([query = teamsQuery.showProjectInfo, 
-            //                 result = pool.queryParamArr(query,projectIdx)]);
             const query = await `SELECT * FROM Project WHERE Project.id = ${projectIdx}`;
             const result = await pool.queryParam(query);
-             return await result;
+            return await result;
         }catch(err){
             console.log('showProjectInfo ERROR: ',err);
             throw err;
         }
     },
-        
+
+    async getTeamList(){
+        try{
+            const query = await `select * from Team`;
+            const result = await pool.queryParam(query);
+            return await result;
+        }catch(e){
+            console.log(e);
+            throw e;
+        }
+    },    
     
     /*//프로젝트 정보 뷰) 세부 정보 조회
     async showProjectInfo (query) {
